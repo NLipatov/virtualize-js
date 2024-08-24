@@ -1,23 +1,5 @@
 'use strict';
 
-let bufferMultiplier = 2;
-
-/**
- * Sets the buffer multiplier that controls the number of additional elements rendered
- * above and below the viewport.
- *
- * For example:
- * - If the viewport can display 10 items and the bufferMultiplier is set to 2,
- *   then 20 additional items will be rendered above and 20 below the viewport.
- * - This means a total of 50 items will be rendered: 10 visible items, 20 in the top buffer,
- *   and 20 in the bottom buffer.
- *
- * @param {number} multiplier - The multiplier used to determine the number of buffer items to render.
- */
-export function setBufferMultiplier(multiplier) {
-    bufferMultiplier = multiplier;
-}
-
 /**
  * Renders the visible elements along with the buffer elements into the provided container.
  *
@@ -47,7 +29,7 @@ export function render(items, itemsContainer) {
 
     const {startIndex, endIndex} = calculateVisibleElements(items, scrollTop, containerHeight);
 
-    const bufferItemsCount = Math.ceil((endIndex - startIndex) * bufferMultiplier);
+    const bufferItemsCount = Math.ceil((endIndex - startIndex) * 1.25);
 
     const renderStartIndex = Math.max(0, startIndex - bufferItemsCount);
     const renderEndIndex = Math.min(items.length, endIndex + bufferItemsCount);

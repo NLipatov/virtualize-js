@@ -6,16 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Virtualize Demo</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
 
 <footer>
-    <label for="itemCount">
-        <input type="number" id="itemCount" placeholder="Count" min="1">
-    </label>
-    <button id="renderButton">Render</button>
+    <div class="controls">
+        <label for="itemCount">
+            <span>Items count:</span>
+            <input type="number" id="itemCount" placeholder="Count" min="5" value="100">
+        </label>
+        <label for="bufferMultiplier">
+            <span>Buffer multiplier:</span>
+            <input type="number" id="bufferMultiplier" placeholder="Buffer Multiplier" min="0" value="2">
+        </label>
+        <button id="renderButton">Render</button>
+    </div>
 </footer>
 
 <main id="items-container">

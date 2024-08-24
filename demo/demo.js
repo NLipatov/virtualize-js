@@ -1,5 +1,5 @@
 'use strict';
-import { render } from '../src/virtualize.js';
+import {render, setBufferMultiplier} from '../src/virtualize.js';
 
 const itemsContainer = document.getElementById('items-container');
 const renderButton = document.getElementById('renderButton');
@@ -8,6 +8,8 @@ const itemCountInput = document.getElementById('itemCount');
 const colors = ['#f0f0f0', '#d0e8ff', '#d0ffd0', '#fffacd', '#ffd0d0'];
 
 let items = [];
+
+setBufferMultiplier(2);
 
 function generateItems(count) {
     items = [];

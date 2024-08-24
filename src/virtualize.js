@@ -18,6 +18,29 @@ export function setBufferMultiplier(multiplier) {
     bufferMultiplier = multiplier;
 }
 
+/**
+ * Renders the visible elements along with the buffer elements into the provided container.
+ *
+ * This function calculates which elements are currently visible within the viewport and
+ * then renders them along with a specified number of buffer elements above and below the viewport
+ * (determined by the bufferMultiplier). It dynamically updates the DOM by adding only the necessary
+ * elements and adding spacers (empty divs) to represent the space occupied by the off-screen elements.
+ *
+ * The rendering logic works as follows:
+ * 1. The function calculates the visible elements based on the current scroll position (`scrollTop`)
+ *    and the height of the container (`containerHeight`).
+ * 2. It calculates the number of buffer elements to render above and below the viewport using the
+ *    `bufferMultiplier`, which allows for smoother scrolling as elements enter/exit the viewport.
+ * 3. It computes the total height of elements before the visible area (topSpacer) and after
+ *    the visible area (bottomSpacer), which are represented by empty divs in the DOM to maintain
+ *    the correct scroll height.
+ * 4. The function clears the container and appends the top spacer, the visible elements, and the
+ *    bottom spacer to ensure that only a limited subset of elements is rendered at any time,
+ *    thus optimizing performance for large lists.
+ *
+ * @param {Array} items - An array of HTMLElements representing the list of items to be rendered.
+ * @param {HTMLElement} itemsContainer - The container element where the items will be rendered.
+ */
 export function render(items, itemsContainer) {
     const containerHeight = itemsContainer.clientHeight;
     const scrollTop = itemsContainer.scrollTop;
@@ -29,23 +52,20 @@ export function render(items, itemsContainer) {
     const renderStartIndex = Math.max(0, startIndex - bufferItemsCount);
     const renderEndIndex = Math.min(items.length, endIndex + bufferItemsCount);
 
+    const topSpacerHeight = items.slice(0, renderStartIndex).reduce((acc, item) => acc + parseInt(item.style.height, 10), 0);
+    const bottomSpacerHeight = items.slice(renderEndIndex).reduce((acc, item) => acc + parseInt(item.style.height, 10), 0);
+
     itemsContainer.innerHTML = '';
 
     const topSpacer = document.createElement('div');
-    const topSpacerHeight = items.slice(0, renderStartIndex).reduce((acc, item) => acc + item.height, 0);
     topSpacer.style.height = `${topSpacerHeight}px`;
     itemsContainer.appendChild(topSpacer);
 
     for (let i = renderStartIndex; i < renderEndIndex; i++) {
-        const message = document.createElement('div');
-        message.textContent = `${items[i].text}`;
-        message.style.height = `${items[i].height}px`;
-        message.style.backgroundColor = items[i].color;
-        itemsContainer.appendChild(message);
+        itemsContainer.appendChild(items[i]);
     }
 
     const bottomSpacer = document.createElement('div');
-    const bottomSpacerHeight = items.slice(renderEndIndex).reduce((acc, item) => acc + item.height, 0);
     bottomSpacer.style.height = `${bottomSpacerHeight}px`;
     itemsContainer.appendChild(bottomSpacer);
 }
@@ -53,19 +73,7 @@ export function render(items, itemsContainer) {
 /**
  * Calculates the indices of the items that should be visible within the viewport.
  *
- * This function determines the start and end indices of the items that need to be rendered
- * based on the current scroll position (`scrollTop`) and the height of the container (`containerHeight`).
- *
- * The function works as follows:
- * - First, it calculates the `startIndex`, which is the index of the first item that should be visible
- *   in the viewport, by summing up the heights of the items until the cumulative height exceeds the scroll position.
- * - Next, it calculates the `endIndex`, which is the index of the last item that should be visible
- *   in the viewport, by summing up the heights of the items starting from the `startIndex`
- *   until the cumulative height exceeds the container's height.
- * - If the height of the item at `startIndex` is greater than the container's height and no other items
- *   would fit, the function ensures that at least one item is rendered by incrementing the `endIndex`.
- *
- * @param {Array} items - An array of item objects, where each item has a `height` property.
+ * @param {Array} items - An array of HTMLElements.
  * @param {number} scrollTop - The current vertical scroll position of the container.
  * @param {number} containerHeight - The height of the container (viewport) in pixels.
  *
@@ -77,7 +85,7 @@ function calculateVisibleElements(items, scrollTop, containerHeight) {
     let accumulatedHeight = 0;
 
     for (let i = 0; i < items.length; i++) {
-        accumulatedHeight += items[i].height;
+        accumulatedHeight += parseInt(items[i].style.height, 10);
         if (accumulatedHeight > scrollTop) {
             startIndex = i;
             break;
@@ -86,16 +94,16 @@ function calculateVisibleElements(items, scrollTop, containerHeight) {
 
     let endIndex = startIndex;
     accumulatedHeight = 0;
+
     for (let i = startIndex; i < items.length; i++) {
-        accumulatedHeight += items[i].height;
+        accumulatedHeight += parseInt(items[i].style.height, 10);
         if (accumulatedHeight >= containerHeight) {
             endIndex = i;
             break;
         }
     }
 
-    // Ensure at least one element is rendered, even if it is taller than the container
-    if (endIndex === startIndex && items[startIndex].height > containerHeight) {
+    if (endIndex === startIndex && parseInt(items[startIndex].style.height, 10) > containerHeight) {
         endIndex = startIndex + 1;
     }
 

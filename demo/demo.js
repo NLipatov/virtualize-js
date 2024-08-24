@@ -15,14 +15,11 @@ function generateItems(count) {
     items = [];
 
     for (let i = 0; i < count; i++) {
-        const height = getRandomHeight(50, 300);
-        const colorIndex = i % colors.length;
-        items.push({
-            index: i,
-            text: `Item #${i + 1}`,
-            height,
-            color: colors[colorIndex],
-        });
+        const item = document.createElement('div');
+        item.textContent = `Item #${i + 1}`;
+        item.style.height = `${getRandomHeight(50, 300)}px`;
+        item.style.backgroundColor = colors[i % colors.length];
+        items.push(item);
     }
 
     render(items, itemsContainer);

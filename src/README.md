@@ -78,7 +78,7 @@ window.addEventListener('resize', () => {
 Renders the visible items and buffers based on scroll position.
 
 - **`items`**: Array of HTML elements to render.
-- **`itemsContainer`**: Container element where the items are displayed.
+- **`itemsContainer`**: Container in which items should be rendered.
 
 ## License
 

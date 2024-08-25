@@ -21,13 +21,10 @@ jobs:
           cd gh-pages-dist
           npm i
           npx webpack
-
-      - name: List files in /docs directory before deploy
-        run: |
-          ls -la /docs
+          ls
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /docs
+          publish_dir: ./gh-pages-dist/docs

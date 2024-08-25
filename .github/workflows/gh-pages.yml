@@ -16,8 +16,14 @@ jobs:
         with:
           node-version: 22
 
-      - name: Build project
+      - name: Build project bundle
         run: |
           cd gh-pages-dist
           npm i
           npx webpack
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: /docs

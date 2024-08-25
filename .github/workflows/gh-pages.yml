@@ -29,5 +29,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: gh-pages-dist/docs
-          skip_cleanup: true
+          publish_dir: ${{ github.workspace }}/gh-pages-dist/docs

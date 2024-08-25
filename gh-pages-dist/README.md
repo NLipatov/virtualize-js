@@ -14,4 +14,4 @@ npm i
 npx webpack
 ```
 
-3. Open bundled html at '../docs/index.html'
+3. Open bundled html at './docs/index.html'

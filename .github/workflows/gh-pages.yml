@@ -22,9 +22,12 @@ jobs:
           npm i
           npx webpack
           ls
+          ls docs
+          pwd
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./gh-pages-dist/docs
+          publish_dir: gh-pages-dist/docs
+          skip_cleanup: true

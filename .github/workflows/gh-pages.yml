@@ -22,10 +22,6 @@ jobs:
           npm i
           npx webpack
 
-      - name: List files in ../docs directory before deploy
-        run: |
-          ls -la ../docs
-
       - name: List files in /docs directory before deploy
         run: |
           ls -la /docs
@@ -34,4 +30,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ../docs
+          publish_dir: /docs

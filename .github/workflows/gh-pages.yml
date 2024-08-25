@@ -22,6 +22,10 @@ jobs:
           npm i
           npx webpack
 
+      - name: List files in /docs directory before deploy
+        run: |
+          ls -la /docs
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:

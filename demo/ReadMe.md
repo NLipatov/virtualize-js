@@ -1,6 +1,12 @@
 # Run the demo
 
-1. Start the node server:
+1. Install dependencies:
+
+```bash
+npm i
+```
+
+2. Start the node server:
 
 ```bash
 node server.js

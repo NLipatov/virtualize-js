@@ -1,6 +1,6 @@
 {
   "name": "virtualize-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tiny virtual scrolling library with dynamic height elements support.",
   "main": "virtualize.js",
   "scripts": {

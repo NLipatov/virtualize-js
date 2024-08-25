@@ -1,4 +1,5 @@
 'use strict';
+import './styles.css';
 import {render} from '../src/virtualize.js';
 
 const itemsContainer = document.getElementById('items-container');

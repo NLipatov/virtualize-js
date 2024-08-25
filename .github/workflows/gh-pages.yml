@@ -18,8 +18,10 @@ jobs:
 
       - name: Build project bundle
         run: |
-          npm i --prefix gh-pages-dist
-          npx webpack --config gh-pages-dist/webpack.config.js
+          cd gh-pages-dist
+          npm i
+          npx webpack
+          cd ..
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
